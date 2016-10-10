@@ -21,5 +21,5 @@ tokens = tokenize('com.apama.Event("Field", 1.234, 7, false, ["a","b","c"], {"ke
 e = event.parse(tokens)
 ```
 
-## Dependecies
+## Dependencies
 See requirements.py
