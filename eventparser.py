@@ -1,8 +1,11 @@
 from tokenize import generate_tokens
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import token
 from apamaevent import ApamaEvent
-from funcparserlib.parser import some, a, many, skip, maybe, NoParseError, with_forward_decls, finished, _Ignored
+from funcparserlib.parser import some, a, many, skip, maybe, NoParseError, with_forward_decls, finished
 
 
 class Token(object):
