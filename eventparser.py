@@ -114,7 +114,6 @@ def make_body(x):
 
 
 def create_apama_event(x):
-    print 'create_apama_event: ' + str(x)
     c = x[0] if x[0] else ''
     return ApamaEvent(channel=c, package_name=x[1], event_name=x[2], fields=x[3])
 
