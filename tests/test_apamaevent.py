@@ -40,6 +40,12 @@ class TestApamaEvents(unittest.TestCase):
         parsed_event = event.parse(tokens)
         self.assertEqual(parsed_event, expected_event)
 
+    def test_nested_event(self):
+        expected_event = ApamaEvent(channel='channel',package_name='heimdall.horn',event_name='ragnarok', fields=[ApamaEvent(package_name='rainbow.bridge', event_name='breached',fields=[True])])
+        tokens = tokenize('"channel",heimdall.horn.ragnarok(rainbow.bridge.breached(true))')
+        parsed_event = event.parse(tokens)
+        self.assertEqual(parsed_event, expected_event)
+
     def test_readme_example(self):
         expected_event = ApamaEvent(package_name='com.apama',event_name='Event', fields=['"Field"', 1.234, 7, False, ['"a"', '"b"', '"c"'], {'"key"': '"value"'}])
         tokens = tokenize('com.apama.Event("Field", 1.234, 7, false, ["a","b","c"], {"key": "value"})')
