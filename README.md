@@ -20,3 +20,6 @@ from eventparser import tokenize, event
 tokens = tokenize('com.apama.Event("Field", 1.234, 7, false, ["a","b","c"], {"key": "value"})')
 e = event.parse(tokens)
 ```
+
+## Dependecies
+See requirements.py
