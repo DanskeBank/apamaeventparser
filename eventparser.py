@@ -2,7 +2,7 @@ from tokenize import generate_tokens
 from StringIO import StringIO
 import token
 from apamaevent import ApamaEvent
-from funcparserlib.parser import some, a, many, skip, maybe, NoParseError, with_forward_decls
+from funcparserlib.parser import some, a, many, skip, maybe, NoParseError, with_forward_decls, finished, _Ignored
 
 
 class Token(object):
@@ -114,8 +114,14 @@ def make_body(x):
 
 
 def create_apama_event(x):
-    c = x[0] if x[0] else ''
-    return ApamaEvent(channel=c, package_name=x[1], event_name=x[2], fields=x[3])
+    try:
+        c = x[0] if x[0] else ''
+        return ApamaEvent(channel=c, package_name=x[1], event_name=x[2], fields=x[3])
+    except TypeError:
+        if x is None:
+            return x
+        raise TypeError
+
 
 package_name = many(name + dot) >> create_package
 event_name = name
@@ -144,5 +150,6 @@ simple_types = number | string | boolean
 comparable_types = number | string
 abstract_data_types = sequence | dictionary
 channel = string + skip(comma) >> make_channel
-event = maybe(channel) + maybe(package_name) + event_name + event_body >> create_apama_event
+event = ((endmarker + finished >> (lambda x: None)) |
+         maybe(channel) + maybe(package_name) + event_name + event_body) >> create_apama_event
 types = simple_types | abstract_data_types | event

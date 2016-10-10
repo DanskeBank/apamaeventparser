@@ -4,6 +4,13 @@ import unittest
 
 
 class TestApamaEvents(unittest.TestCase):
+
+    def test_no_event(self):
+        expected_event = None
+        tokens = tokenize('')
+        parsed_event = event.parse(tokens)
+        self.assertEqual(parsed_event, expected_event)
+
     def test_simple_event(self):
         expected_event = ApamaEvent(event_name='a')
         tokens = tokenize('a()')
