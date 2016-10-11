@@ -33,7 +33,7 @@ class TestEvents(unittest.TestCase):
     def test_simple_fields(self):
         expected_event = ApamaEvent(package_name='heimdall.horn',
                                     event_name='ragnarok',
-                                    fields=['"valhalla"', 1, 3.14, 1.0e6, False, True])
+                                    fields=['valhalla', 1, 3.14, 1.0e6, False, True])
         parsed_event = parse('heimdall.horn.ragnarok("valhalla", 1, 3.14, 1.0e6, false, true)')
         self.assertEqual(parsed_event, expected_event)
 
@@ -41,7 +41,7 @@ class TestEvents(unittest.TestCase):
         expected_event = ApamaEvent(channel='channel',
                                     package_name='heimdall.horn',
                                     event_name='ragnarok',
-                                    fields=['"valhalla"', 1, 3.14, 1.0e6, False, True])
+                                    fields=['valhalla', 1, 3.14, 1.0e6, False, True])
         parsed_event = parse('"channel",heimdall.horn.ragnarok("valhalla", 1, 3.14, 1.0e6, false, true)')
         self.assertEqual(parsed_event, expected_event)
 
@@ -59,7 +59,7 @@ class TestEvents(unittest.TestCase):
     def test_readme_example(self):
         expected_event = ApamaEvent(package_name='com.apama',
                                     event_name='Event',
-                                    fields=['"Field"', 1.234, 7, False, ['"a"', '"b"', '"c"'], {'"key"': '"value"'}])
+                                    fields=['Field', 1.234, 7, False, ['a', 'b', 'c'], {'key': 'value'}])
         parsed_event = parse('com.apama.Event("Field", 1.234, 7, false, ["a","b","c"], {"key": "value"})')
         self.assertEqual(parsed_event, expected_event)
 
@@ -84,21 +84,21 @@ class TestEventParts(unittest.TestCase):
         self.assertEqual(parsed_package, expected_result)
 
     def test_event_body_simple_types(self):
-        expected_result = ['"valhalla"', 1, 3.14, 1.0e6, True, False]
+        expected_result = ['valhalla', 1, 3.14, 1.0e6, True, False]
         tokens = _tokenize('("valhalla", 1, 3.14, 1.0e6, true, false)')
         parsed_package = _event_body.parse(tokens)
         self.assertEqual(parsed_package, expected_result)
 
     def test_event_body_all_types(self):
-        expected_result = ['"valhalla"', 1, 3.14, 1.0e6, True, False, [1, 2, 3, 4],
-                           {'"Thor"': '"Mjolner"', '"Odin"': '"Gungnir"', '"Freja"': '"Falkedragt"'}]
+        expected_result = ['valhalla', 1, 3.14, 1.0e6, True, False, [1, 2, 3, 4],
+                           {'Thor': 'Mjolner', 'Odin': 'Gungnir', 'Freja': 'Falkedragt'}]
         tokens = _tokenize('("valhalla", 1, 3.14, 1.0e6, true, false,[1,2,3,4],'
                            '{"Thor": "Mjolner", "Odin": "Gungnir", "Freja": "Falkedragt"})')
         parsed_package = _event_body.parse(tokens)
         self.assertEqual(parsed_package, expected_result)
 
     def test_sequence_string(self):
-        expected_result = ['"a"', '"b"', '"c"']
+        expected_result = ['a', 'b', 'c']
         tokens = _tokenize('["a","b","c"]')
         parsed_package = _sequence.parse(tokens)
         self.assertEqual(parsed_package, expected_result)
@@ -110,7 +110,7 @@ class TestEventParts(unittest.TestCase):
         self.assertEqual(parsed_package, expected_result)
 
     def test_one_item_sequence(self):
-        expected_result = ['"Thor"']
+        expected_result = ['Thor']
         tokens = _tokenize('["Thor"]')
         parsed_package = _sequence.parse(tokens)
         self.assertEqual(parsed_package, expected_result)
@@ -135,7 +135,7 @@ class TestEventParts(unittest.TestCase):
 
     def test_sequence_in_sequence_in_sequence(self):
         # This is not a legal event type since sequences need to all be the same type, however it still parses...
-        expected_result = [1, 2, 3, ['"a"', '"b"', '"c"'], [['"aa"', '"bb"'], ['"cc"', '"dd"']]]
+        expected_result = [1, 2, 3, ['a', 'b', 'c'], [['aa', 'bb'], ['cc', 'dd']]]
         tokens = _tokenize('[1,2,3,["a","b","c"],[["aa","bb"],["cc","dd"]]]')
         parsed_package = _sequence.parse(tokens)
         self.assertEqual(parsed_package, expected_result)
@@ -153,15 +153,15 @@ class TestEventParts(unittest.TestCase):
         self.assertEqual(parsed_package, expected_result)
 
     def test_dictionary(self):
-        expected_result = {'"Thor"': '"Mjolner"', '"Odin"': '"Gungnir"', '"Freja"': '"Falkedragt"'}
+        expected_result = {'Thor': 'Mjolner', 'Odin': 'Gungnir', 'Freja': 'Falkedragt'}
         tokens = _tokenize('{"Thor": "Mjolner", "Odin": "Gungnir", "Freja": "Falkedragt"}')
         parsed_package = _dictionary.parse(tokens)
         self.assertEqual(parsed_package, expected_result)
 
     def test_dictionary_in_dictionary(self):
-        expected_result = {'"other"': {},
-                           '"Weapons"': {'"Thor"': '"Mjolner"', '"Odin"': '"Gungnir"', '"Freja"': '"Falkedragt"'},
-                           '"Transportation"': {'"Odin"': '"Sleipner"', '"Thor"': '"Goats"'}}
+        expected_result = {'other': {},
+                           'Weapons': {'Thor': 'Mjolner', 'Odin': 'Gungnir', 'Freja': 'Falkedragt'},
+                           'Transportation': {'Odin': 'Sleipner', 'Thor': 'Goats'}}
         tokens = _tokenize('{"other":{}, '
                            '"Weapons": {"Thor": "Mjolner", "Odin": "Gungnir", "Freja": "Falkedragt"}, '
                            '"Transportation": {"Odin": "Sleipner", "Thor": "Goats"}}')

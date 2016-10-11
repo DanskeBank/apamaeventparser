@@ -63,7 +63,7 @@ def _make_boolean(x):
     raise NoParseError('Received boolean that is neither true or false', x)
 
 
-def _make_channel(x):
+def _strip_quotes(x):
     """Strip quotes from the channel name"""
     return x.strip('"')
 
@@ -117,7 +117,7 @@ def _create_apama_event(x):
 
 # Definitions of types from the tokenizer
 _name = some(lambda tok: tok.type == 'NAME') >> _token_value
-_string = some(lambda tok: tok.type == 'STRING') >> _token_value
+_string = some(lambda tok: tok.type == 'STRING') >> _token_value >> _strip_quotes
 _number = some(lambda tok: tok.type == 'NUMBER') >> _token_value >> _make_number
 _true = a(Token(token.NAME, 'true')) >> _token_value
 _false = a(Token(token.NAME, 'false')) >> _token_value
@@ -150,7 +150,7 @@ _event_body = forward_decl()
 _simple_types = _number | _string | _boolean
 _comparable_types = _number | _string  # _comparable_types are for dictionary keys
 _abstract_data_types = _sequence | _dictionary
-_channel = _string + skip(_comma) >> _make_channel
+_channel = _string + skip(_comma) >> _strip_quotes
 _package_name = many(_name + _dot) >> _make_package
 _event_name = _name
 _event = ((_endmarker + finished >> (lambda x: None)) |

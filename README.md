@@ -17,5 +17,7 @@ from eventparser import parse
 event = parse('com.apama.Event("Field", 1.234, 7, false, ["a","b","c"], {"key": "value"})')
 ```
 
+An event can be created from the ApamaEvent object using the unparse method.
+
 ## Dependencies
-See requirements.py
+See requirements.txt
