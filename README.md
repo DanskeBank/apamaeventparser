@@ -1,4 +1,7 @@
 # Apama event parser
+[![Build Status](https://travis-ci.org/kadmia/apamaeventparser.svg?branch=master)](https://travis-ci.org/kadmia/apamaeventparser)
+
+## Description
 
 A parser for Apama epl events. 
 [Apama](http://www.softwareag.com/corporate/products/apama_webmethods/analytics/overview/default.asp) 
