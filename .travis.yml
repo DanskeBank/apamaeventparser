@@ -6,7 +6,9 @@ install:
   - pip install -r requirements.txt
   - pip install coverage
   - pip install coveralls
-before_script: export PYTHONPATH=$PYTHONPATH:$(pwd)
+before_script:
+  - pwd
+  - export PYTHONPATH=$PYTHONPATH:$(pwd)
 script: coverage run --omit tests/* -m unittest discover tests
 after_success:
   coveralls
