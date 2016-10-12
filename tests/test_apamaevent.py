@@ -1,5 +1,4 @@
 from unittest import TestCase
-from apamaevent import ApamaEvent
 from eventparser import parse
 
 class TestApamaEvent(TestCase):
