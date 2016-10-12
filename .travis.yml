@@ -7,6 +7,6 @@ install:
   - pip install coveralls
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
-script: coverage run --omit tests/* -m unittest discover -v -s tests
+script: coverage run --source=. --omit tests/* -m unittest discover -v -s tests
 after_success:
   coveralls
