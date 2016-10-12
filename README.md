@@ -1,5 +1,6 @@
 # Apama event parser
 [![Build Status](https://travis-ci.org/kadmia/apamaeventparser.svg?branch=master)](https://travis-ci.org/kadmia/apamaeventparser)
+[![Coverage Status](https://coveralls.io/repos/github/kadmia/apamaeventparser/badge.svg?branch=master)](https://coveralls.io/github/kadmia/apamaeventparser?branch=master)
 
 ## Description
 

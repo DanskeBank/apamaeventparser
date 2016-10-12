@@ -4,4 +4,8 @@ python:
   - "3.5"
 install:
   - pip install -r requirements.txt
-script: python -m unittest discover -s tests
+  - pip install coverage
+  - pip install coveralls
+script: coverage run --omit tests/* -m unittest discover tests
+after_success:
+  coveralls
