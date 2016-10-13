@@ -1,6 +1,7 @@
 # Apama event parser
 [![Build Status](https://travis-ci.org/DanskeBank/apamaeventparser.svg?branch=master)](https://travis-ci.org/DanskeBank/apamaeventparser)
 [![Coverage Status](https://coveralls.io/repos/github/DanskeBank/apamaeventparser/badge.svg?branch=master)](https://coveralls.io/github/DanskeBank/apamaeventparser?branch=master)
+[![PyPI version](https://badge.fury.io/py/apamaeventparser.svg)](https://badge.fury.io/py/apamaeventparser)
 ## Description
 
 A parser for Apama epl events. 
