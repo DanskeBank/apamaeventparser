@@ -17,7 +17,7 @@ Pass an event as a string to the parse method in eventparser.py. The result is a
 object. The ApamaEvent definition can be found in apamaevent.py
 
 ```
-from eventparser import parse
+from apamaeventparser.eventparser import parse
 event = parse('com.apama.Event("Field", 1.234, 7, false, ["a","b","c"], {"key": "value"})')
 ```
 
