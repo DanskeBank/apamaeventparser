@@ -1,6 +1,8 @@
-from eventparser import parse, _tokenize, _channel, _package_name, _event_name, _event_body, _sequence, _dictionary
-from apamaevent import ApamaEvent
 import unittest
+
+from apamaeventparser.apamaevent import ApamaEvent
+
+from apamaeventparser.eventparser import parse, _tokenize, _channel, _package_name, _event_name, _event_body, _sequence, _dictionary
 
 
 class TestEvents(unittest.TestCase):
